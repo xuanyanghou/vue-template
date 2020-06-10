@@ -10,7 +10,7 @@ const resolve = dir => {
 }
 
 module.exports = {
-  publicPath: (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'test') ? '/' : './', // 基本路径 如果你的应用被部署在 https://www.my-app.com/my-app/，则设置 publicPath 为 /my-app/
+  publicPath: process.env.VUE_APP_NODE_ENV !== 'location' ? '/' : './', // 基本路径 如果你的应用被部署在 https://www.my-app.com/my-app/，则设置 publicPath 为 /my-app/
   outputDir: `dist/${process.env.VUE_APP_PROJECT_NAME}`, // 输出文件目录
   assetsDir: 'assets', // 放置生成的静态资源 (js、css、img、fonts) 的 (相对于 outputDir 的) 目录
   lintOnSave: process.env.NODE_ENV !== 'production', // eslint-loader 是否在保存的时候检查
