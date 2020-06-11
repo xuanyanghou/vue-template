@@ -8,13 +8,12 @@ const proxy = require('./src/proxy')
 const resolve = dir => {
   return path.join(__dirname, dir)
 }
-
 module.exports = {
   publicPath: process.env.VUE_APP_NODE_ENV !== 'location' ? '/' : './', // 基本路径 如果你的应用被部署在 https://www.my-app.com/my-app/，则设置 publicPath 为 /my-app/
   outputDir: `dist/${process.env.VUE_APP_PROJECT_NAME}`, // 输出文件目录
   assetsDir: 'assets', // 放置生成的静态资源 (js、css、img、fonts) 的 (相对于 outputDir 的) 目录
   lintOnSave: process.env.NODE_ENV !== 'production', // eslint-loader 是否在保存的时候检查
-  productionSourceMap: process.env.NODE_ENV !== 'location', // 生产环境是否生成 sourceMap 文件
+  productionSourceMap: process.env.NODE_ENV !== 'production', // 生产环境是否生成 sourceMap 文件
   // css相关配置
   css: {
     // extract: true, // 是否使用css分离插件 ExtractTextPlugin Default: 生产环境下是 true，开发环境下是 false
@@ -83,6 +82,9 @@ module.exports = {
           deleteOriginalAssets: false
         })
       )
+    }
+    if (process.env.NODE_ENV !== 'production') {
+      config.devtool = '#cheap-module-source-map'
     }
   },
   // 第三方插件配置
