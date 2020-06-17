@@ -5,6 +5,7 @@ const webpack = require('webpack')
 const CompressionPlugin = require('compression-webpack-plugin')
 const proxy = require('./src/proxy')
 
+const projectTitle = 'title'
 const resolve = dir => {
   return path.join(__dirname, dir)
 }
@@ -72,6 +73,7 @@ module.exports = {
       .use(LodashModuleReplacementPlugin)
   },
   configureWebpack: config => {
+    config.name = projectTitle
     // 生产包gzip 压缩
     if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'test') {
       config.plugins.push(
