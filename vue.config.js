@@ -71,6 +71,18 @@ module.exports = {
     config
       .plugin('lodash-webpack-plugin')
       .use(LodashModuleReplacementPlugin)
+    // 指定文件svg不做解析
+    config.module.rule('svg')
+      .exclude.add(resolve('src/icons'))
+    // 添加svg-sprite-loader
+    config.module.rule('icons')
+      .test(/\.svg$/) //设置test
+      .include.add(resolve('src/icons')) //加入include
+        .end() // add完上下文进入了数组，使用end回退
+      .use('svg-sprite-loader') // 添加loader
+        .loader('svg-sprite-loader') // 切换上下文到loader
+        .options({symbolId: 'icon-[name]'}) //指定选项
+        .end()
   },
   configureWebpack: config => {
     config.name = projectTitle

@@ -3,6 +3,7 @@ import keys from './key'
 import helper from './helper'
 import libs from './libs'
 import crypto from './crypto'
+import components from './components'
 
 export default Vue => {
   Vue.use(axios)
@@ -10,4 +11,5 @@ export default Vue => {
   Vue.use(keys)
   Vue.use(helper)
   Vue.use(crypto)
+  Vue.use(components)
 }
