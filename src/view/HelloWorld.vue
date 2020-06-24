@@ -1,9 +1,6 @@
 <template>
-  <div class="hello">
+  <div id="wrap" ref="test" class="theme-default">
     <h1>{{ msg }}</h1>
-    <icon-font type="wx" />
-    <icon-font type="qq" />
-    <icon-font class="right-wrap" type="right" />
     <p>
       For a guide and recipes on how to configure / customize this project,<br>
       check out the
@@ -30,6 +27,11 @@
       <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
       <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
     </ul>
+    <div class="color-select">
+      <Button type="primary" @click="toggleDefaultTheme">默认</Button>
+      <Button type="primary" @click="toggleSecondTheme">第一种</Button>
+      <Button type="primary" @click="toggleThirdTheme">第二种</Button>
+    </div>
   </div>
 </template>
 
@@ -38,24 +40,68 @@ export default {
   name: 'HelloWorld',
   props: {
     msg: String
+  },
+  mounted () {
+    if (localStorage.getItem('theme') === 'theme-default') {
+        this.setTheme('theme-default')
+    }
+    if (localStorage.getItem('theme') === 'theme-second') {
+        this.setTheme('theme-second')
+    }
+    if (localStorage.getItem('theme') === 'theme-third') {
+        this.setTheme('theme-third')
+    }
+  },
+  methods: {
+    toggleDefaultTheme () {
+      if (localStorage.getItem('theme') !== 'theme-default'){
+        this.setTheme('theme-default')
+      }
+    },
+    toggleSecondTheme () {
+      if (localStorage.getItem('theme') !== 'theme-second'){
+        this.setTheme('theme-second')
+      }
+    },
+    toggleThirdTheme () {
+      if (localStorage.getItem('theme') !== 'theme-third'){
+        this.setTheme('theme-third')
+      }
+    },
+    setTheme (themeName) {
+      localStorage.setItem('theme', themeName)
+      this.$refs.test.className = themeName
+      // document.documentElement.className = themeName
+    }
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
+.theme-default {
+   --accent-color: #72f1b8;
+   --font-color: #34294f;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
+
+.theme-second {
+    --accent-color: #FFBF00;
+    --font-color: #59316B;
 }
-li {
-  display: inline-block;
-  margin: 0 10px;
+
+.theme-third {
+    --accent-color: #d9455f;
+    --font-color: #303960;
 }
-a {
-  color: #42b983;
+
+#wrap {
+    background-color: var(--accent-color);
+    color: var(--font-color);
 }
+
+/* Style each swatch to match the corresponding theme */
+.color-select button:nth-child(1) { background: #72f1b8; border-color: #34294f; }
+.color-select button:nth-child(2) { background: #FFBF00; border-color: #59316B; }
+.color-select button:nth-child(3) { background: #d9455f; border-color: #303960; }
+
 </style>
