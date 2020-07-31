@@ -24,7 +24,7 @@ module.exports = {
         prependData: '@import "~@/styles/variable.scss"; '
       }
     },
-    requireModuleExtension: true // 启用 CSS modules for all css / pre-processor files.
+    requireModuleExtension: true // 启用 CSS modules for all css / pre-processor files.true 解决第三方库样式不生效
   },
   chainWebpack: config => {
     // 图片压缩
