@@ -3,8 +3,10 @@ const FileManagerPlugin = require('filemanager-webpack-plugin')
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 const webpack = require('webpack')
 const CompressionPlugin = require('compression-webpack-plugin')
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin')
 const proxy = require('./src/proxy')
 
+const IS_BUILD = process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'sit'
 const projectTitle = 'title'
 const resolve = dir => {
   return path.join(__dirname, dir)
@@ -36,6 +38,19 @@ module.exports = {
         bypassOnDebug: true
       })
       .end()
+    // pdf doc文件loader配置， require路径时需要配置该loader
+    config.module
+      .rule('files')
+      .test(/\.(pdf|doc|docx)$/)
+      .use('file-loader')
+      .loader('file-loader')
+      .options({
+        name: 'public/static/doc/[name].[ext]'
+      })
+    // 为模块提供中间缓存，缓存路径：node_modules/.cache/hard-source, 替代dll
+    config
+      .plugin('hard-source-wepack-plugin')
+      .use(new HardSourceWebpackPlugin())
     // moment忽略其他语言包
     config
       .plugin('ignore')
@@ -51,7 +66,7 @@ module.exports = {
         .use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin)
     }
     // 压缩打包后文件
-    if ((process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'test')) {
+    if (IS_BUILD) {
       config
         .plugin('compress')
         .use(FileManagerPlugin, [
@@ -87,7 +102,7 @@ module.exports = {
   configureWebpack: config => {
     config.name = projectTitle
     // 生产包gzip 压缩
-    if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'test') {
+    if (IS_BUILD) {
       config.plugins.push(
         new CompressionPlugin({
           filename: '[path].gz[query]',

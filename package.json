@@ -5,11 +5,11 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build --mode test",
+    "build": "vue-cli-service build --mode sit",
     "lint": "vue-cli-service lint",
     "dev": "vue-cli-service serve --mode development",
     "location": "vue-cli-service build --mode location",
-    "test": "vue-cli-service build --mode test",
+    "sit": "vue-cli-service build --mode sit",
     "prod": "vue-cli-service build --mode production",
     "analyze": "vue-cli-service build --mode analyze"
   },
@@ -46,6 +46,7 @@
     "eslint-plugin-standard": "^4.0.1",
     "eslint-plugin-vue": "^5.0.0",
     "filemanager-webpack-plugin": "^2.0.5",
+    "hard-source-webpack-plugin": "^0.13.1",
     "image-webpack-loader": "^6.0.0",
     "imagemin-pngquant": "^8.0.0",
     "lodash-webpack-plugin": "^0.11.5",
